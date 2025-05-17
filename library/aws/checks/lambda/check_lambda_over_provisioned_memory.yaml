@@ -1,0 +1,26 @@
+check_id: "lambda_over_provisioned_memory"
+title: "Ensure AWS Lambda Functions Are Not Over-Provisioned with Memory"
+description: >
+  This check identifies AWS Lambda functions that are potentially over-provisioned by comparing allocated memory 
+  with actual maximum memory used (based on CloudWatch metrics). Functions consistently using less than 50% 
+  of their allocated memory may be optimized to reduce costs.
+
+risk: "Medium"
+severity: "Low"
+category: "Cost Optimization"
+resource_type: "AWS::Lambda::Function"
+service_name: "lambda"
+
+remediation: >
+  Reduce the memory allocation for the over-provisioned Lambda functions to a more appropriate level. 
+  In the AWS Console, go to Lambda > [Function] > Configuration > General configuration > Edit, and 
+  adjust the memory size. Alternatively, use the AWS CLI or Infrastructure as Code tools like Terraform 
+  or CloudFormation to update the memory size.
+
+compliance:
+  - framework: "AWS Well-Architected Framework"
+    category: "Cost Optimization"
+    control_id: "CO_3"
+    description: "Use the most cost-effective Lambda memory size based on workload requirements."
+
+enabled: true

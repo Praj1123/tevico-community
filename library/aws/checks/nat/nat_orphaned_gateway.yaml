@@ -1,0 +1,28 @@
+Provider: aws
+CheckID: orphaned_nat_gateway_check
+CheckTitle: Ensure NAT Gateways are not orphaned
+CheckType: [Networking, Cost Optimization]
+ServiceName: ec2
+SubServiceName: natgateway
+ResourceIdTemplate: arn:aws:ec2:{region}:{account_id}:natgateway/{nat_gateway_id}
+Severity: medium
+ResourceType: AwsNatGateway
+Description: Checks for NAT Gateways that exist but are not associated with any route table, indicating they are orphaned and incurring unnecessary cost.
+Risk: Orphaned NAT Gateways can lead to unnecessary charges as they consume resources without being used for network traffic routing.
+RelatedUrl: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
+Remediation:
+  Code:
+    CLI: "aws ec2 delete-nat-gateway --nat-gateway-id <nat-gateway-id>"
+    NativeIaC: ""
+    Other: ""
+    Terraform: |
+      resource "aws_nat_gateway" "example" {
+        # Ensure this NAT Gateway is associated with route tables or delete if unused
+      }
+  Recommendation:
+    Text: Delete NAT Gateways that are not referenced in any route table to avoid unnecessary costs.
+    Url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#delete-nat-gateway
+Categories: [Networking, Cost Optimization]
+DependsOn: []
+RelatedTo: []
+Notes: This check helps identify NAT Gateways that are running without being referenced by route tables.

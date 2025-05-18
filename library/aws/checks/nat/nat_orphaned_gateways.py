@@ -10,7 +10,6 @@ from tevico.engine.entities.report.check_model import (
 )
 from tevico.engine.entities.check.check import Check
 
-
 class check_orphaned_nat_gateways(Check):
     def __init__(self, metadata: Optional[CheckMetadata] = None):
         super().__init__(metadata=metadata)

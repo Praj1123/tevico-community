@@ -1,0 +1,32 @@
+Provider: aws
+CheckID: iam_roles_unused_90_days
+CheckTitle: Ensure IAM roles are not unused for more than 90 days
+CheckType: []
+ServiceName: iam
+SubServiceName: ""
+ResourceIdTemplate: arn:aws:iam::{account_id}:role/{role_name}
+Severity: medium
+ResourceType: AwsIamRole
+Description: Identifies IAM roles that have not been used in the last 90 days or have never been used.
+RelatedUrl: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html
+Risk: >-
+  IAM roles that are not used for extended periods of time may represent unnecessary access paths or security risks.
+  Regularly reviewing and removing unused roles helps reduce the attack surface and improves security posture.
+Remediation:
+  Code:
+    CLI: >
+      aws iam delete-role --role-name <role-name>
+    NativeIaC: ""
+    Other: ""
+    Terraform: >
+      resource "aws_iam_role" "example" {
+        count = 0 # Disable unused role creation
+      }
+  Recommendation:
+    Text: Review and remove IAM roles that have not been used in over 90 days.
+    Url: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html
+Categories:
+  - Identity and Access Management
+DependsOn: []
+RelatedTo: []
+Notes: "Identity and Access Management"
